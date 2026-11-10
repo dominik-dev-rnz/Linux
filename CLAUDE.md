@@ -69,6 +69,7 @@ Details stehen in aufgaben/person-a.md, person-b.md, person-c.md.
 - room/           Web-Terminal (Quellcode und Tests)
 - docs/           Fertig gebündeltes Web-Terminal für GitHub Pages
 - aufgaben/       Aufgaben für jede Person
+- web/            Präsentationswebsite (Next.js, eigene CLAUDE.md mit Design-Regeln)
 
 ## Web-Terminal: Technik
 - Reines JavaScript mit ES-Modulen, läuft im Browser ohne
