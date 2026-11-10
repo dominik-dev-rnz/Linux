@@ -1,0 +1,49 @@
+/*
+ * Design-Tokens – die EINZIGE Quelle für Farben, Schrift, Abstände und Radius.
+ * Siehe CLAUDE.md: Nichts außerhalb dieser Datei erfinden.
+ *
+ * `--*-*: initial` löscht die Standardwerte von Tailwind. Dadurch erzeugen
+ * Klassen wie `bg-blue-500`, `p-5` oder `rounded-xl` gar kein CSS.
+ */
+@theme {
+  /* ---------- Farben: 3 Grundfarben + 1 Fehlerfarbe ---------- */
+  --color-*: initial;
+  --color-background: #0d1117; /* dunkler Hintergrund */
+  --color-foreground: #e6edf3; /* heller Text */
+  --color-primary: #3fb950;    /* grüner Akzent: Prompt, Häkchen, Buttons */
+  --color-destructive: #f85149; /* Fehler */
+
+  /* ---------- Schrift: eine Familie (Geist) + ihre Mono-Variante ---------- */
+  --font-*: initial;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* ---------- Abstandsskala: 0/4/8/12/16/24/32/48 px ---------- */
+  --spacing: initial;
+  --spacing-*: initial;
+  --spacing-0: 0px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+
+  /* ---------- Radius: genau ein Wert ---------- */
+  --radius-*: initial;
+  --radius-base: 8px;
+
+  /* ---------- Keine Schatten (flaches Design) ---------- */
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+}
+
+/*
+ * Erlaubte Abstufungen (keine neuen Farben, nur Deckkraft derselben Tokens):
+ *   /10  dezente Flächen und Linien    z. B. bg-foreground/10, border-foreground/10
+ *   /20  Rahmen, Hover                 z. B. border-foreground/20
+ *   /60  Nebentext                     z. B. text-foreground/60
+ */

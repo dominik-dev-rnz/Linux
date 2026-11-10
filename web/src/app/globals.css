@@ -1,0 +1,55 @@
+/* Nur die Oberfläche nach Klassen durchsuchen (nicht CLAUDE.md, Skripte oder die Simulation) */
+@import "tailwindcss" source(none);
+@source "../app";
+@source "../components";
+@import "../styles/tokens.css";
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    /* Platz für die Sticky-Navigation: scroll-pt-12 + scroll-mt-12 am Ziel */
+    @apply scroll-pt-12;
+  }
+  body {
+    @apply bg-background text-foreground font-sans text-lg antialiased;
+  }
+  * {
+    @apply border-foreground/10;
+  }
+  ::selection {
+    @apply bg-primary/20;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+}
+
+/* Druckansicht (Handout): Papier hell, Schrift dunkel – mit denselben Tokens. */
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  html,
+  body {
+    @apply bg-foreground text-background text-sm;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Animation der Accordion-Komponente (shadcn/ui) */
+@theme {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
