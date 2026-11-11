@@ -5,14 +5,58 @@
  * `--*-*: initial` löscht die Standardwerte von Tailwind. Dadurch erzeugen
  * Klassen wie `bg-blue-500`, `p-5` oder `rounded-xl` gar kein CSS.
  */
-@theme {
-  /* ---------- Farben: 3 Grundfarben + 1 Fehlerfarbe ---------- */
-  --color-*: initial;
-  --color-background: #0d1117; /* dunkler Hintergrund */
-  --color-foreground: #e6edf3; /* heller Text */
-  --color-primary: #3fb950;    /* grüner Akzent: Prompt, Häkchen, Buttons */
-  --color-destructive: #f85149; /* Fehler */
+/* ---------- Farben: 3 Grundfarben + 1 Fehlerfarbe, je Modus ein Satz ----------
+ * Dunkel ist der Standard. Hell gilt bei data-theme="light" am <html>,
+ * bei hellem System ohne eigene Wahl und in der Klasse .theme-light
+ * (Handout-Papier). Beim Drucken ist immer Hell aktiv.
+ */
+:root {
+  --token-background: #0d1117;  /* dunkler Hintergrund */
+  --token-foreground: #e6edf3;  /* heller Text */
+  --token-primary: #3fb950;     /* grüner Akzent: Prompt, Häkchen, Buttons */
+  --token-destructive: #f85149; /* Fehler */
+  color-scheme: dark;
+}
 
+/* Light-Mode: dunklere Akzente, damit Grün und Rot auf Weiß lesbar bleiben (≥ 4,5 : 1) */
+:root[data-theme="light"],
+.theme-light {
+  --token-background: #ffffff;
+  --token-foreground: #0d1117;
+  --token-primary: #1a7f37;
+  --token-destructive: #cf222e;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --token-background: #ffffff;
+    --token-foreground: #0d1117;
+    --token-primary: #1a7f37;
+    --token-destructive: #cf222e;
+    color-scheme: light;
+  }
+}
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    --token-background: #ffffff;
+    --token-foreground: #0d1117;
+    --token-primary: #1a7f37;
+    --token-destructive: #cf222e;
+    color-scheme: light;
+  }
+}
+
+/* Die Tailwind-Klassen (bg-background, text-primary, …) zeigen auf die Werte oben */
+@theme inline {
+  --color-*: initial;
+  --color-background: var(--token-background);
+  --color-foreground: var(--token-foreground);
+  --color-primary: var(--token-primary);
+  --color-destructive: var(--token-destructive);
+}
+
+@theme {
   /* ---------- Schrift: eine Familie (Geist) + ihre Mono-Variante ---------- */
   --font-*: initial;
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;

@@ -6,7 +6,6 @@
 
 @layer base {
   html {
-    color-scheme: dark;
     scroll-behavior: smooth;
     /* Platz für die Sticky-Navigation: scroll-pt-12 + scroll-mt-12 am Ziel */
     @apply scroll-pt-12;
@@ -25,7 +24,7 @@
   }
 }
 
-/* Druckansicht (Handout): Papier hell, Schrift dunkel – mit denselben Tokens. */
+/* Druckansicht (Handout): Beim Drucken gelten immer die hellen Token-Werte (tokens.css). */
 @media print {
   @page {
     size: A4;
@@ -33,7 +32,7 @@
   }
   html,
   body {
-    @apply bg-foreground text-background text-sm;
+    @apply text-sm;
   }
   .no-print {
     display: none !important;

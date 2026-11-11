@@ -12,9 +12,13 @@ im Browser (statischer Export, kein Backend). Antworte auf Deutsch.
 - Bei fehlendem Token zuerst nachfragen, nicht selbst erfinden.
 
 ### Was die Token-Datei festlegt
-- Farben: `background` (dunkel), `foreground` (hell), `primary` (grüner
-  Akzent für Prompt, Häkchen und Buttons) und `destructive` (Fehler, rot).
-  Abstufungen nur über die Deckkraft derselben Tokens: `/10`, `/20`, `/60`.
+- Farben: `background`, `foreground`, `primary` (grüner Akzent für Prompt,
+  Häkchen und Buttons) und `destructive` (Fehler, rot). Abstufungen nur über
+  die Deckkraft derselben Tokens: `/10`, `/20`, `/60`.
+- Zwei Farbsätze mit denselben Namen: Dark (Standard) und Light
+  (`data-theme="light"`, helles System, Klasse `.theme-light`, Druck).
+  Im Light-Mode sind Grün und Rot dunkler, damit sie auf Weiß lesbar sind.
+  In Komponenten nie `dark:`/`light:` verwenden, nur die Token-Klassen.
 - Schrift: Geist (`font-sans`) und Geist Mono (`font-mono`) fürs Terminal.
 - Abstände: 0, 4, 8, 12, 16, 24, 32, 48 px, also die Klassen `*-0`, `*-1`,
   `*-2`, `*-3`, `*-4`, `*-6`, `*-8`, `*-12` (z. B. `p-4`, `gap-6`, `h-12`).

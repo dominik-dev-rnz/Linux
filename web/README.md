@@ -23,4 +23,5 @@ npm run dev          # http://localhost:3000
 - Vorführmodus: Button „Lösungsweg zeigen“ (startet neu und spielt alle Tasks
   ab, ca. 2 Minuten) oder „Lösung vorführen“ in einem einzelnen Task.
 - Handout: Button „Handout (Druckansicht)“ → Drucken / als PDF speichern.
+- Dark-/Light-Mode: Button oben rechts (folgt sonst der Systemeinstellung).
 - Passwort von `student` in der Simulation: `student`.

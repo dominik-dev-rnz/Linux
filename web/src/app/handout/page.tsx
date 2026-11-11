@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PrintButton } from "@/components/print-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { ABLAUFPLAN, COMMANDS, QUELLEN } from "@/lib/content/data";
 
 export const metadata: Metadata = { title: "Handout – Vortrag 4: Benutzer- und Gruppenverwaltung" };
@@ -12,16 +13,16 @@ const PAGES = 3;
 /** Ein A4-Blatt: auf dem Bildschirm als Papier, beim Drucken mit Seitenumbruch danach. */
 function Sheet({ nr, title, children }: { nr: number; title: string; children: React.ReactNode }) {
   return (
-    <section className="mx-auto flex aspect-[210/297] w-full max-w-4xl flex-col gap-4 bg-foreground p-12 text-background break-after-page last:break-after-auto print:aspect-auto print:max-w-none print:p-0">
-      <header className="flex items-end justify-between gap-4 border-b-2 border-background pb-2">
+    <section className="theme-light mx-auto flex aspect-[210/297] w-full max-w-4xl flex-col gap-4 bg-background p-12 text-foreground break-after-page last:break-after-auto print:aspect-auto print:max-w-none print:p-0">
+      <header className="flex items-end justify-between gap-4 border-b-2 border-foreground pb-2">
         <div>
           <p className="font-mono text-xs">Linux · Fachvortrag 4 · Benutzer- und Gruppenverwaltung</p>
           <h1 className="text-2xl font-bold">{title}</h1>
         </div>
-        <p className="font-mono text-xs text-background/60">Handout</p>
+        <p className="font-mono text-xs text-foreground/60">Handout</p>
       </header>
       <div className="flex flex-1 flex-col gap-4 text-sm leading-relaxed">{children}</div>
-      <footer className="flex justify-between border-t border-background/20 pt-2 text-xs text-background/60">
+      <footer className="flex justify-between border-t border-foreground/20 pt-2 text-xs text-foreground/60">
         <span>Ubuntu 24.04 LTS · Beispiele nur in einer Test-VM ausführen</span>
         <span>
           Seite {nr} von {PAGES}
@@ -38,14 +39,14 @@ function H2({ children }: { children: React.ReactNode }) {
 const Code = ({ children }: { children: React.ReactNode }) => <code className="font-mono font-semibold">{children}</code>;
 
 function Line({ children }: { children: React.ReactNode }) {
-  return <pre className="whitespace-pre-wrap break-all rounded-base border border-background/20 px-3 py-1 font-mono text-xs">{children}</pre>;
+  return <pre className="whitespace-pre-wrap break-all rounded-base border border-foreground/20 px-3 py-1 font-mono text-xs">{children}</pre>;
 }
 
 function FileBlock({ path, rights, line, fields }: { path: string; rights: string; line: string; fields: string }) {
   return (
     <div className="flex flex-col gap-1">
       <p>
-        <Code>{path}</Code> <span className="text-background/60">({rights})</span>
+        <Code>{path}</Code> <span className="text-foreground/60">({rights})</span>
       </p>
       <Line>{line}</Line>
       <p className="text-xs">{fields}</p>
@@ -55,7 +56,7 @@ function FileBlock({ path, rights, line, fields }: { path: string; rights: strin
 
 export default function HandoutPage() {
   return (
-    <div className="min-h-screen bg-background print:bg-foreground">
+    <div className="min-h-screen bg-background">
       <div className="no-print flex flex-wrap items-center justify-between gap-3 border-b border-foreground/10 px-4 py-4 lg:px-8">
         <Button variant="ghost" size="lg" asChild>
           <Link href="/">
@@ -63,7 +64,10 @@ export default function HandoutPage() {
           </Link>
         </Button>
         <p className="text-base text-foreground/60">Druckansicht: {PAGES} Seiten A4. Kopf- und Fußzeilen des Browsers im Druckdialog am besten ausschalten.</p>
-        <PrintButton />
+        <div className="flex flex-wrap gap-2">
+          <ThemeToggle />
+          <PrintButton />
+        </div>
       </div>
 
       <article className="flex flex-col gap-8 px-4 py-8 print:gap-0 print:p-0">
@@ -87,19 +91,19 @@ export default function HandoutPage() {
               <H2>Drei Arten von Konten</H2>
               <table className="w-full border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-background text-left">
+                  <tr className="border-b border-foreground text-left">
                     <th className="py-1 pr-2">Typ</th>
                     <th className="py-1 pr-2">UID</th>
                     <th className="py-1">Merkmale</th>
                   </tr>
                 </thead>
                 <tbody className="align-top">
-                  <tr className="border-b border-background/20">
+                  <tr className="border-b border-foreground/20">
                     <td className="py-1 pr-2 font-semibold">root</td>
                     <td className="py-1 pr-2 font-mono">0</td>
                     <td className="py-1">darf alles; Login unter Ubuntu gesperrt, stattdessen sudo</td>
                   </tr>
-                  <tr className="border-b border-background/20">
+                  <tr className="border-b border-foreground/20">
                     <td className="py-1 pr-2 font-semibold">Systemkonten</td>
                     <td className="py-1 pr-2 font-mono">1–999</td>
                     <td className="py-1">für Dienste (www-data, sshd), kein Passwort, Shell /usr/sbin/nologin</td>
@@ -135,7 +139,7 @@ export default function HandoutPage() {
             fields="Gruppenname : x (Gruppenpasswort in /etc/gshadow) : GID : Mitglieder (Komma, ohne Leerzeichen)"
           />
 
-          <div className="rounded-base border-2 border-background p-3">
+          <div className="rounded-base border-2 border-foreground p-3">
             <H2>Warum Passwort-Hashes geschützt sein müssen</H2>
             <ul className="list-disc pl-4">
               <li>Ein Hash lässt sich nicht zurückrechnen, aber offline durchprobieren (Wörterbuch- und Brute-Force-Angriffe), ohne dass das System es merkt.</li>
@@ -159,7 +163,7 @@ export default function HandoutPage() {
               </H2>
               <ol className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {phase.steps.map((step, si) => (
-                  <li key={step.title} className="break-inside-avoid rounded-base border border-background/20 p-2">
+                  <li key={step.title} className="break-inside-avoid rounded-base border border-foreground/20 p-2">
                     <p className="font-semibold">
                       {pi + 1}.{si + 1} {step.title}
                     </p>
@@ -168,7 +172,7 @@ export default function HandoutPage() {
                         $ {c}
                       </p>
                     ))}
-                    {step.note && <p className="text-xs italic text-background/60">{step.note}</p>}
+                    {step.note && <p className="text-xs italic text-foreground/60">{step.note}</p>}
                   </li>
                 ))}
               </ol>
@@ -196,7 +200,7 @@ export default function HandoutPage() {
         <Sheet nr={3} title="Befehlsübersicht, Sicherheit und Quellen">
           <table className="w-full border-collapse text-xs leading-snug">
             <thead>
-              <tr className="border-b-2 border-background text-left">
+              <tr className="border-b-2 border-foreground text-left">
                 <th className="py-1 pr-2">Befehl</th>
                 <th className="py-1 pr-2">Zweck</th>
                 <th className="py-1 pr-2">Wichtige Optionen</th>
@@ -205,7 +209,7 @@ export default function HandoutPage() {
             </thead>
             <tbody>
               {COMMANDS.map((c) => (
-                <tr key={c.cmd} className="break-inside-avoid border-b border-background/20 align-top">
+                <tr key={c.cmd} className="break-inside-avoid border-b border-foreground/20 align-top">
                   <td className="whitespace-nowrap py-1 pr-2 font-mono font-bold">{c.cmd}</td>
                   <td className="py-1 pr-2">{c.zweck}</td>
                   <td className="py-1 pr-2">{c.optionen}</td>
@@ -216,7 +220,7 @@ export default function HandoutPage() {
           </table>
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-base border border-background/20 p-3">
+            <div className="rounded-base border border-foreground/20 p-3">
               <H2>Ablauf, Sperren, sudo</H2>
               <ul className="list-disc pl-4 text-xs">
                 <li>
@@ -228,7 +232,7 @@ export default function HandoutPage() {
                 <li>sudo nur für Admins (Gruppe sudo); jeder Aufruf wird protokolliert; /etc/sudoers nur mit visudo bearbeiten.</li>
               </ul>
             </div>
-            <div className="rounded-base border-2 border-background p-3">
+            <div className="rounded-base border-2 border-foreground p-3">
               <H2>Prinzip der minimalen Rechte</H2>
               <ul className="list-disc pl-4 text-xs">
                 <li>Nur die Rechte vergeben, die für die Aufgabe nötig sind.</li>

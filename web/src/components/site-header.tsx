@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Clapperboard, Printer, RotateCcw, Square, Terminal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { getLabStore, useLab } from "@/lib/lab-store";
 
 export function SiteHeader() {
@@ -37,6 +38,7 @@ export function SiteHeader() {
           <Button variant="ghost" size="lg" onClick={() => store.resetProgress()} disabled={s.demo.running}>
             <RotateCcw /> Fortschritt zurücksetzen
           </Button>
+          <ThemeToggle />
         </div>
       </div>
     </header>
