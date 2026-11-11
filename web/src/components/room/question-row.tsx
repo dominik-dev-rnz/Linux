@@ -58,7 +58,7 @@ export function QuestionRow({ q, index }: { q: Question; index: number }) {
         ) : (
           <p className={cn("flex items-center gap-2 text-base", st.done ? "text-primary" : "text-foreground/60")}>
             {st.done ? <Check className="size-4" /> : <Circle className="size-4" />}
-            {st.done ? "Im Terminal erkannt" : "Wird automatisch erkannt, sobald der Zustand im Terminal stimmt."}
+            {st.done ? "Im Terminal erkannt" : "Wird automatisch im Terminal erkannt."}
           </p>
         )}
 

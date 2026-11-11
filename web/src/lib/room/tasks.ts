@@ -95,7 +95,7 @@ export const TASKS: Task[] = [
     section: "grundlagen",
     title: "Wer bin ich?",
     intro:
-      "Starte die Maschine rechts. Mit `id` siehst du die UID, die primäre Gruppe (gid=) und alle zusätzlichen Gruppen (groups=) des angemeldeten Benutzers. `groups` zeigt nur die Gruppennamen.",
+      "Starte die Maschine rechts. `id` zeigt UID, primäre Gruppe und alle Gruppen.",
     questions: [
       {
         id: "t1-uid",
@@ -111,7 +111,7 @@ export const TASKS: Task[] = [
       {
         id: "t1-sudo",
         kind: "answer",
-        prompt: "Über welche zusätzliche Gruppe darf student Befehle mit sudo ausführen?",
+        prompt: "Welche Gruppe erlaubt student sudo?",
         placeholder: "Gruppenname",
         hint: "`groups` listet alle Gruppen auf. Unter Ubuntu ist es die Gruppe mit der GID 27 (siehe `id`).",
         expected: () => exact("sudo"),
@@ -124,7 +124,7 @@ export const TASKS: Task[] = [
     section: "dateien",
     title: "Die drei Dateien lesen",
     intro:
-      "/etc/passwd und /etc/group darf jeder lesen. /etc/shadow enthält die Passwort-Hashes und ist geschützt. Probiere `cat /etc/shadow` als student aus und vergleiche mit `ls -l /etc/passwd /etc/shadow`.",
+      "/etc/passwd darf jeder lesen, /etc/shadow nicht. Probiere `cat /etc/shadow` aus.",
     questions: [
       {
         id: "t2-shell",
@@ -162,12 +162,12 @@ export const TASKS: Task[] = [
     section: "befehle",
     title: "Ein Konto anlegen",
     intro:
-      "Verwaltungsbefehle brauchen Root-Rechte, also `sudo` davor. Das sudo-Passwort von student ist student (Eingabe bleibt unsichtbar). Ohne -m gibt es kein Home-Verzeichnis, ohne -s bekommt das Konto /bin/sh.",
+      "Mit `sudo` davor (Passwort: student, bleibt unsichtbar).",
     questions: [
       {
         id: "t3-gast",
         kind: "state",
-        prompt: "Lege den Benutzer gast mit Home-Verzeichnis und der Shell /bin/bash an.",
+        prompt: "Lege gast mit Home und /bin/bash an.",
         hint: "`sudo useradd -m -s /bin/bash gast`",
         check: (sys) => {
           const u = sys.user("gast");
@@ -196,19 +196,19 @@ export const TASKS: Task[] = [
     section: "pruefen",
     title: "Gruppen prüfen und ergänzen",
     intro:
-      "`usermod -aG` hängt eine Gruppe an. Ohne -a ersetzt -G alle bisherigen Zusatzgruppen, ein typischer Fehler! Prüfe vorher und nachher mit `groups gast`.",
+      "`usermod -aG` hängt eine Gruppe an. Ohne -a werden alle anderen ersetzt!",
     questions: [
       {
         id: "t4-users",
         kind: "state",
-        prompt: "Füge gast zusätzlich der Gruppe users hinzu.",
+        prompt: "Füge gast der Gruppe users hinzu.",
         hint: "`sudo usermod -aG users gast` (oder `sudo gpasswd -a gast users`)",
         check: (sys) => !!sys.group("users")?.members.includes("gast"),
       },
       {
         id: "t4-groups",
         kind: "answer",
-        prompt: "Welche Gruppen zeigt `groups gast` jetzt an? (alle, mit Leerzeichen getrennt)",
+        prompt: "Welche Gruppen zeigt `groups gast`?",
         placeholder: "gruppe1 gruppe2 …",
         hint: "Die Ausgabe hat die Form „gast : gruppe1 gruppe2“. Die Reihenfolge ist egal.",
         expected: (sys) => {
@@ -230,7 +230,7 @@ export const TASKS: Task[] = [
     section: "ablauf",
     title: "Ablauf, Sperre und sudo",
     intro:
-      "`chage -E` setzt ein Ablaufdatum für das ganze Konto, `passwd -l` sperrt das Passwort (in /etc/shadow steht dann ein ! vor dem Hash). `passwd -S` zeigt den Status: P = Passwort gesetzt, L = gesperrt, NP = kein Passwort.",
+      "`chage -E` = Kontoablauf, `passwd -l` = sperren, `passwd -S` = Status (P, L, NP).",
     questions: [
       {
         id: "t5-expire",
@@ -242,7 +242,7 @@ export const TASKS: Task[] = [
       {
         id: "t5-lock",
         kind: "state",
-        prompt: "Sperre das Passwort von gast (gast muss vorher ein Passwort haben).",
+        prompt: "Sperre das Passwort von gast.",
         hint: "`sudo passwd -l gast` oder `sudo usermod -L gast`",
         check: (sys) => {
           const u = sys.user("gast");
@@ -252,7 +252,7 @@ export const TASKS: Task[] = [
       {
         id: "t5-status",
         kind: "answer",
-        prompt: "Welchen Status (2. Feld) zeigt `sudo passwd -S gast` an?",
+        prompt: "Welchen Status zeigt `sudo passwd -S gast`?",
         placeholder: "P, L oder NP",
         hint: "Die Ausgabe beginnt mit „gast X …“. Gesucht ist das X.",
         expected: (sys) => {
@@ -265,7 +265,7 @@ export const TASKS: Task[] = [
       {
         id: "t5-sudo",
         kind: "answer",
-        prompt: "Darf gast Befehle mit sudo ausführen? Prüfe mit `sudo -l -U gast`. (ja/nein)",
+        prompt: "Darf gast sudo nutzen? (`sudo -l -U gast`, ja/nein)",
         placeholder: "ja oder nein",
         hint: "Bei „is not allowed to run sudo“ lautet die Antwort nein. Prinzip der minimalen Rechte!",
         expected: (sys) => {
@@ -289,12 +289,12 @@ export const TASKS: Task[] = [
     section: "demo",
     title: "Demo 1: Testbenutzer und gemeinsame Gruppe",
     intro:
-      "Lege testuser1 und testuser2 mit Home-Verzeichnis an, dann die Gruppe projektgruppe, und ordne beide Benutzer zu. Zwei Wege: `usermod -aG` oder `gpasswd -a`. Prüfe mit `id` und `getent group projektgruppe`.",
+      "Zwei Benutzer und eine Gruppe anlegen, dann zuordnen (`usermod -aG` oder `gpasswd -a`).",
     questions: [
       {
         id: "t6-users",
         kind: "state",
-        prompt: "Lege testuser1 und testuser2 jeweils mit Home-Verzeichnis an.",
+        prompt: "Lege testuser1 und testuser2 mit Home an.",
         hint: "`sudo useradd -m -s /bin/bash testuser1`, danach dasselbe für testuser2",
         check: (sys) =>
           ["testuser1", "testuser2"].every((n) => {
@@ -305,7 +305,7 @@ export const TASKS: Task[] = [
       {
         id: "t6-group",
         kind: "state",
-        prompt: "Lege die Gruppe projektgruppe an und mache beide Benutzer zu Mitgliedern.",
+        prompt: "Lege projektgruppe an, beide als Mitglieder.",
         hint: "`sudo groupadd projektgruppe`, dann `sudo usermod -aG projektgruppe testuser1` und `sudo gpasswd -a testuser2 projektgruppe`",
         check: (sys) => {
           const g = sys.group("projektgruppe");
@@ -344,12 +344,12 @@ export const TASKS: Task[] = [
     section: "demo",
     title: "Demo 2: Gemeinsames Verzeichnis mit Rechten",
     intro:
-      "Erstelle /srv/projekt, setze Besitzer und Gruppe und gib die Rechte 2770: Besitzer und Gruppe dürfen alles, andere nichts, und das setgid-Bit (2) sorgt dafür, dass neue Dateien automatisch der Gruppe gehören. Prüfe mit `ls -ld`, `id` und `groups`.",
+      "2770 = Besitzer und Gruppe alles, andere nichts; setgid vererbt die Gruppe.",
     questions: [
       {
         id: "t7-dir",
         kind: "state",
-        prompt: "Erstelle /srv/projekt mit der Gruppe projektgruppe und den Rechten 2770.",
+        prompt: "Erstelle /srv/projekt: Gruppe projektgruppe, Rechte 2770.",
         hint: "`sudo mkdir /srv/projekt`, `sudo chgrp projektgruppe /srv/projekt`, `sudo chmod 2770 /srv/projekt`",
         check: (sys) => {
           const n = sys.get("/srv/projekt");
@@ -404,12 +404,12 @@ export const TASKS: Task[] = [
     section: "demo",
     title: "Demo 3: Passwortablauf und Aufräumen",
     intro:
-      "`chage -M 90` erzwingt alle 90 Tage ein neues Passwort, `chage -l` zeigt alle Ablaufdaten. Zum Schluss werden die Testkonten mit `userdel -r` samt Home-Verzeichnis entfernt. Keine echten Hashes: In dieser Simulation steht in /etc/shadow nur ein Platzhalter.",
+      "`chage -l` zeigt die Ablaufdaten, `userdel -r` löscht samt Home.",
     questions: [
       {
         id: "t8-max",
         kind: "state",
-        prompt: "Setze für testuser2 die maximale Gültigkeit des Passworts auf 90 Tage.",
+        prompt: "Passwort von testuser2 maximal 90 Tage gültig.",
         hint: "`sudo chage -M 90 testuser2`",
         check: (sys) => sys.user("testuser2")?.shadow.max === 90,
       },
@@ -434,7 +434,7 @@ export const TASKS: Task[] = [
         id: "t8-removed",
         kind: "state",
         requires: ["t6-users"],
-        prompt: "Entferne testuser1 und testuser2 samt Home-Verzeichnis.",
+        prompt: "Entferne testuser1 und testuser2 samt Home.",
         hint: "`sudo userdel -r testuser1` und `sudo userdel -r testuser2`",
         check: (sys) =>
           !sys.user("testuser1") && !sys.user("testuser2") && !sys.get("/home/testuser1") && !sys.get("/home/testuser2"),
@@ -472,7 +472,7 @@ export function checkAnswer(q: AnswerQuestion, input: string, sys: SimSystem): C
   if (!n) return { ok: false, message: "Bitte gib zuerst eine Antwort ein." };
   const exp = q.expected(sys);
   if ("unavailable" in exp) return { ok: false, message: exp.unavailable };
-  return exp.accept(n) ? { ok: true } : { ok: false, message: "Leider falsch. Schau dir die Terminal-Ausgabe noch einmal genau an." };
+  return exp.accept(n) ? { ok: true } : { ok: false, message: "Leider falsch. Schau noch einmal ins Terminal." };
 }
 
 /** Text, den der Vorführmodus für eine Frage eintippt. */

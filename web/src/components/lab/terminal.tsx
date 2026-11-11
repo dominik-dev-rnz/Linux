@@ -104,7 +104,7 @@ export function Terminal() {
           <Power className="size-12 text-foreground/60" aria-hidden />
           <p className="text-xl">Die Maschine ist aus.</p>
           <p className="max-w-md text-base text-foreground/60">
-            Starte die Maschine, um im simulierten Terminal Benutzer und Gruppen anzulegen. Alles läuft nur in deinem Browser.
+            Starte die Maschine, um mitzumachen.
           </p>
           <Button size="lg" onClick={() => store.start()}>
             <Play /> Maschine starten

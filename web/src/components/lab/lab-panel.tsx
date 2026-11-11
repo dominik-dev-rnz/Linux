@@ -17,14 +17,14 @@ export function LabPanel() {
       <Alert>
         <TriangleAlert className="text-destructive" />
         <AlertTitle>Simulation – nur in einer Test-VM real ausführen</AlertTitle>
-        <AlertDescription>Kein echtes Linux. Jeder Besucher hat seine eigene Kopie im Browser, nichts geht an einen Server.</AlertDescription>
+        <AlertDescription>Kein echtes Linux, läuft nur in deinem Browser.</AlertDescription>
       </Alert>
       {s.demo.running && (
         <Alert variant="success" data-testid="demo-banner">
           <Clapperboard />
           <AlertTitle>Vorführmodus läuft{demoTask >= 0 ? `: Task ${demoTask + 1}` : ""}</AlertTitle>
           <AlertDescription className="flex flex-wrap items-center gap-3">
-            Befehle und Antworten werden automatisch eingetippt.
+            Wird automatisch eingetippt.
             <Button size="sm" variant="outline" onClick={() => store.abortDemo()}>
               <Square /> Stopp
             </Button>
