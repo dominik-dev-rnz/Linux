@@ -13,17 +13,17 @@
 :root {
   --token-background: #0d1117;  /* dunkler Hintergrund */
   --token-foreground: #e6edf3;  /* heller Text */
-  --token-primary: #3fb950;     /* grüner Akzent: Prompt, Häkchen, Buttons */
+  --token-primary: #58a6ff;     /* blauer Akzent: Prompt, Häkchen, Buttons */
   --token-destructive: #f85149; /* Fehler */
   color-scheme: dark;
 }
 
-/* Light-Mode: dunklere Akzente, damit Grün und Rot auf Weiß lesbar bleiben (≥ 4,5 : 1) */
+/* Light-Mode: dunklere Akzente, damit Blau und Rot auf Weiß lesbar bleiben (≥ 4,5 : 1) */
 :root[data-theme="light"],
 .theme-light {
   --token-background: #ffffff;
   --token-foreground: #0d1117;
-  --token-primary: #1a7f37;
+  --token-primary: #0969da;
   --token-destructive: #cf222e;
   color-scheme: light;
 }
@@ -31,7 +31,7 @@
   :root:not([data-theme="dark"]) {
     --token-background: #ffffff;
     --token-foreground: #0d1117;
-    --token-primary: #1a7f37;
+    --token-primary: #0969da;
     --token-destructive: #cf222e;
     color-scheme: light;
   }
@@ -41,7 +41,7 @@
   :root[data-theme="dark"] {
     --token-background: #ffffff;
     --token-foreground: #0d1117;
-    --token-primary: #1a7f37;
+    --token-primary: #0969da;
     --token-destructive: #cf222e;
     color-scheme: light;
   }
