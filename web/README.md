@@ -3,6 +3,12 @@
 Next.js (App Router, TypeScript, Tailwind v4, shadcn/ui). Links Inhalte und
 Tasks, rechts ein simuliertes Terminal (kein echtes Linux, nur im Browser).
 
+**Windows:** `start.cmd` doppelklicken. Das Skript installiert beim ersten
+Start die Pakete, startet die Website und öffnet http://localhost:3000.
+Das Fenster offen lassen, solange die Website laufen soll.
+
+**Andere Systeme / Terminal:**
+
 ```bash
 npm install
 npm run dev          # http://localhost:3000
