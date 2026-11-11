@@ -1,0 +1,11 @@
+# Für Apache-Webserver (nginx und andere ignorieren diese Datei)
+ErrorDocument 404 /404.html
+DirectoryIndex index.html
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Dateien unter _next/static haben Prüfsummen im Namen und ändern sich nie
+  <FilesMatch "\.(js|css|woff2)$">
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+</IfModule>
